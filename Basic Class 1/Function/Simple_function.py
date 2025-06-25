@@ -21,3 +21,8 @@ call_etu("26")
 def number(a = 1, b = 2):
     return a + b
 print(number(1, 2))
+
+#function with parameter
+def findme( etu = "Beyond your Mind"):
+ return etu
+print(findme())
