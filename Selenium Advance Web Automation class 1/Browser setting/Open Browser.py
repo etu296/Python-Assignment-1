@@ -20,9 +20,9 @@ def get_webdriver(browser):
         return webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
     elif browser == "firefox":
         return webdriver.Firefox(service=FirefoxService(executable_path=GeckoDriverManager().install()))
-    elif browser == "edge":
+    else:
         return webdriver.Edge(service=EdgeService(executable_path=EdgeChromiumDriverManager().install()))
-    return None
+
 @pytest.fixture(scope="class")
 def setup(request, browser = DEFAULT_BROWSER):
     # Step-1: Browser Support Check
