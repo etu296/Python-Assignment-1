@@ -1,6 +1,7 @@
 import pytest
 import time
 from selenium import webdriver
+from selenium.webdriver import Keys
 from selenium.webdriver.common.by import By
 from webdriver_manager.chrome import ChromeDriverManager
 from webdriver_manager.core import driver
@@ -39,8 +40,22 @@ def setup(request, browser=DEFAULT_BROWSER):
 class TestLocatorByContains:
     def test_locator_by_contains(self):
         try:
-            element = self.driver.find_element(By.XPATH, "//*[contains(text(), 'Learning Objectives')]")
-            print(f"Value: {element.text}")
+            # contain Xpath
+            contains = self.driver.find_element(By.XPATH,"//*[contains(@placeholder , 'Enter your first name')]")
+            contains.send_keys("Etu")
+            time.sleep(3)
+            # By ARIA Attributes
+            aria = self.driver.find_element(By.XPATH,"//*[@aria-label='New York']")
+            aria.click()
+            time.sleep(3)
+            #By And Expression
+            and_expression = self.driver.find_element(By.XPATH,"//input[@name = 'last-name' and @placeholder = 'Enter your last name']")
+            and_expression.send_keys("Mahmuda")
+            time.sleep(2)
+            # By And Expression
+            element = self.driver.find_element(By.XPATH,"//input[@id='qualification' or @name='qualification' or @placeholder='Enter your qualification']")
+            element.send_keys("SQA")
             time.sleep(5)
+
         except Exception as e:
             pytest.fail(f"Test failed due to exception: {e}")
