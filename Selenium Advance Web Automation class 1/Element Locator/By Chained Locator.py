@@ -14,7 +14,7 @@ from selenium.webdriver.edge.service import Service as EdgeService
 SUPPORTED_BROWSERS = {"chrome", "firefox", "edge"}
 DEFAULT_BROWSER = "chrome"
 #URL = "https://testing-and-learning-hub.vercel.app/index.html"
-URL = "https://testing-and-learning-hub.vercel.app/WebAutomation/pages/registration_form.html"
+URL = "https://www.daraz.com.bd/"
 
 
 def get_webdriver(browser):
@@ -35,28 +35,21 @@ def setup(request, browser=DEFAULT_BROWSER):
     request.cls.driver = driver
     yield
     driver.quit()
-#contain Xpath
-@pytest.mark.usefixtures("setup")
-class TestLocatorByContains:
-    def test_locator_by_contains(self):
-        try:
-            # contain Xpath
-            contains = self.driver.find_element(By.XPATH,"//*[contains(@placeholder , 'Enter your first name')]")
-            contains.send_keys("Etu")
-            time.sleep(3)
-            # By ARIA Attributes
-            aria = self.driver.find_element(By.XPATH,"//*[@aria-label='New York']")
-            aria.click()
-            time.sleep(3)
-            #By And Expression
-            and_expression = self.driver.find_element(By.XPATH,"//input[@name = 'last-name' and @placeholder = 'Enter your last name']")
-            and_expression.send_keys("Mahmuda")
-            time.sleep(2)
-            # By or Expression
-            element = self.driver.find_element(By.XPATH,"//input[@id='qualification' or @name='qualification' or @placeholder='Enter your qualification']")
-            element.send_keys("SQA")
-            time.sleep(5)
-            #
 
+@pytest.mark.usefixtures("setup")
+class TestByChainedLocator:
+    def test_chained_locator(self, setup):
+        try:
+            topHeader = self.driver.find_element(By.ID, "topActionHeader")
+            header_content = topHeader.find_element(By.CLASS_NAME, "lzd-header-content")
+            header_links = header_content.find_element(By.CLASS_NAME, "lzd-links-bar")
+            header_link_lists = header_links.find_element(By.CLASS_NAME, "links-list")
+            header_link_lists_item = header_link_lists.find_element(By.ID, "topActionCustomCare")
+            final_text = header_link_lists_item.find_element(By.TAG_NAME, "span")
+            print(final_text.text)
+            time.sleep(2)
         except Exception as e:
             pytest.fail(f"Test failed due to exception: {e}")
+
+
+

@@ -37,26 +37,11 @@ def setup(request, browser=DEFAULT_BROWSER):
     driver.quit()
 #contain Xpath
 @pytest.mark.usefixtures("setup")
-class TestLocatorByContains:
-    def test_locator_by_contains(self):
+class TestImplicitWait:
+    #implicit wait
+    def test_implicit_wait(self, setup):
         try:
-            # contain Xpath
-            contains = self.driver.find_element(By.XPATH,"//*[contains(@placeholder , 'Enter your first name')]")
-            contains.send_keys("Etu")
-            time.sleep(3)
-            # By ARIA Attributes
-            aria = self.driver.find_element(By.XPATH,"//*[@aria-label='New York']")
-            aria.click()
-            time.sleep(3)
-            #By And Expression
-            and_expression = self.driver.find_element(By.XPATH,"//input[@name = 'last-name' and @placeholder = 'Enter your last name']")
-            and_expression.send_keys("Mahmuda")
-            time.sleep(2)
-            # By or Expression
-            element = self.driver.find_element(By.XPATH,"//input[@id='qualification' or @name='qualification' or @placeholder='Enter your qualification']")
-            element.send_keys("SQA")
-            time.sleep(5)
-            #
-
+            self.driver.implicitly_wait(30)
+            self.driver.get(URL)
         except Exception as e:
             pytest.fail(f"Test failed due to exception: {e}")
